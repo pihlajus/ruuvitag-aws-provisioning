@@ -1,0 +1,69 @@
+---
+- name: Install nessesary package
+  apt:
+    name: apt-transport-https
+    state: present
+    update_cache: yes
+
+- name: add grafana gpg key
+  apt_key: url=https://packages.grafana.com/gpg.key state=present
+
+- name: add grafana repo
+  apt_repository:
+    repo: deb https://packages.grafana.com/oss/deb stable main
+    state: present
+    filename: grafana
+
+- name: Install grafana
+  apt:
+    name: grafana
+    state: present
+    update_cache: yes
+
+- name: Set Grafana conf file
+  template:
+    src: "templates/grafana.ini.j2"
+    dest: "/etc/grafana/grafana.ini"
+
+- name: Enable and start grafana service
+  service:
+    name: grafana-server
+    enabled: yes
+    state: started
+
+- name: Grafana service starting, wait few seconds...
+  pause: seconds=2
+
+- name: Create influxdb datasource
+  grafana_datasource:
+    name: "{{ ds_name }}"
+    grafana_url: "http://localhost:3000"
+    grafana_user: "{{ grafana_user }}"
+    grafana_password: "{{ grafana_password }}"
+    ds_type: "{{ ds_type }}"
+    url: "http://localhost:8086"
+    database: "{{ ds_name }}"
+    user: "{{ ds_user }}"
+    password: "{{ ds_password }}"
+    state: present
+
+- name: Create data folder
+  file:
+    path="/var/lib/grafana/dashboards"
+    state=directory
+    owner=grafana
+    group=grafana
+
+- copy:
+    src: home_dashboard.json
+    dest: "/var/lib/grafana/dashboards"
+    owner: grafana
+    group: grafana
+
+- copy:
+    src: home_dashboard.yml
+    dest: "/etc/grafana/provisioning/dashboards/"
+    owner: grafana
+    group: grafana
+  notify: Restart Grafana
+

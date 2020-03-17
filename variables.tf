@@ -1,0 +1,12 @@
+variable "access_key" {}
+variable "secret_key" {}
+variable "key_pair_name" {}
+variable "public_key_path" {}
+variable "private_key_path" {}
+variable "certificate_arn" {}
+variable "route53_hosted_zone_name" {}
+variable "availibility_zone" {}
+variable "instance_type" {}
+variable "route53_hosted_zone_id" {}
+variable "region" {}
+variable "project_name" {}

@@ -1,0 +1,71 @@
+- name: Upgrade system
+  apt: upgrade=dist update_cache=yes
+
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 #One day
+
+- raw: apt-get install -y python-simplejson
+
+- name: ensure nginx is at the latest version
+  apt: name=nginx state=latest
+
+- name: install letsencrypt
+  apt: name=letsencrypt state=latest
+
+- name: create letsencrypt directory
+  file: name=/var/www/letsencrypt state=directory
+
+- name: Removes "default" site
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+
+- name: Sets Nginx http conf file
+  template:
+    src: "templates/nginx-http.conf.j2"
+    dest: "/etc/nginx/sites-available/{{ domain_name }}_http"
+
+- name: Enables http conf
+  file:
+    src: "/etc/nginx/sites-available/{{ domain_name }}_http"
+    dest: "/etc/nginx/sites-enabled/{{ domain_name }}_http"
+    state: link
+
+- name: Restart Nginx
+  service: name=nginx state=restarted
+
+- name: Create letsencrypt certificate
+  shell: letsencrypt certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_name }}
+  args:
+    creates: /etc/letsencrypt/live/{{ domain_name }}
+
+- name: Generate dhparams
+  shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
+  args:
+    creates: /etc/nginx/dhparams.pem
+
+- name: Sets Nginx https conf file
+  template:
+    src: "templates/nginx-https.conf.j2"
+    dest: "/etc/nginx/sites-available/{{ domain_name }}_https"
+
+- name: Enables https conf
+  file:
+    src: "/etc/nginx/sites-available/{{ domain_name }}_https"
+    dest: "/etc/nginx/sites-enabled/{{ domain_name }}_https"
+    state: link
+  notify: Restart Nginx
+
+- name: Restart Nginx
+  service: name=nginx state=restarted
+
+- name: Add letsencrypt cronjob for cert renewal
+  cron:
+    name: letsencrypt_renewal
+    special_time: weekly
+    job: letsencrypt --renew certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_name }} && service nginx reload
+
+

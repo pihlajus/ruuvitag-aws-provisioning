@@ -1,0 +1,9 @@
+grafana_user: admin
+grafana_password: <grafana_password>
+org_id: "1"
+
+ds_name: Ruuvi
+ds_type: "influxdb"
+ds_user: ruuvi_user
+ds_password: <db_password>
+db_name: ruuvi_measurements

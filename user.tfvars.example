@@ -1,0 +1,8 @@
+access_key = ""
+secret_key = ""
+key_pair_name = ""
+public_key_path = ""
+private_key_path = ""
+certificate_arn = ""
+route53_hosted_zone_name = ""
+route53_hosted_zone_id = ""

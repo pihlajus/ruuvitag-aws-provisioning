@@ -1,0 +1,6 @@
+data_folder: /data/influxdb
+ebs_volume: /dev/nvme1n1
+influxdb_user: influxdb
+db_user: ruuvi_user
+db_password: <your_password>
+db_name: ruuvi

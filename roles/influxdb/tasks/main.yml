@@ -1,0 +1,55 @@
+---
+- name: Create a ext4 filesystem on EBS volume
+  filesystem:
+    fstype: ext4
+    dev: "{{ ebs_volume }}"
+
+- name: Create data folder
+  file:
+    path="{{ data_folder }}"
+    state=directory
+
+- name: Mount up device
+  mount:
+    path: "{{ data_folder }}"
+    src: "{{ ebs_volume }}"
+    fstype: ext4
+    state: mounted
+
+- name: Import InfluxDB GPG signing key
+  apt_key: url=https://repos.influxdata.com/influxdb.key state=present
+
+- name: Add InfluxDB repository
+  apt_repository: repo='deb https://repos.influxdata.com/ubuntu xenial stable' state=present
+
+- name: Install InfluxDB packages
+  apt: name=influxdb state=present
+
+- name: Chown data folder to Influxdb login and chmod as required
+  file:
+    path: "{{ data_folder }}"
+    owner: "{{ influxdb_user }}"
+    group: "{{ influxdb_user }}"
+    recurse: yes
+    state: directory
+    mode: 0755
+
+- name: Start the InfluxDB service
+  service: name=influxdb state=restarted enabled=yes
+
+- name: Pause for InfluxDB service
+  pause: seconds=2
+
+- name: Create InfluxDB user
+  command: "influx -execute \"CREATE USER {{ db_user }} WITH PASSWORD '{{ db_password }}' WITH ALL PRIVILEGES\""
+
+- name: Set Influxdb conf file
+  template:
+    src: "templates/influxdb.conf.j2"
+    dest: "/etc/influxdb/influxdb.conf"
+  notify: Restart Influxdb
+
+- name: Create database
+  command: /usr/bin/influx -execute 'CREATE DATABASE {{ db_name }}'
+  ignore_errors: yes
+
