@@ -115,7 +115,7 @@ resource "aws_instance" "home_monitor_instance" {
 
 resource "aws_ebs_volume" "home_monitor_volume" {
   availability_zone = var.availibility_zone
-  size              = 30
+  size              = 15
 
   tags = {
     Name = var.project_name
