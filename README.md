@@ -1,7 +1,8 @@
 # AWS EC2 provisioning for Ruuvitag data
+This setup is meant to be used for Ruuvitag data storage and visualization.
 Project creates AWS infra using Terraform and provisions and configurates
-EC2 instance with Nginx, Letsencrypt, Influxdb and Grafana using Ansible. This setup
-is meant to be used for Ruuvitag data storage and visualization.
+EC2 instance with Nginx, Letsencrypt, Influxdb and Grafana using Ansible. Instelled
+operating system is Ubuntu 18.04 and this is also the only tested OS. 
 
 ## Contents
 - [AWS EC2 provisioning for Ruuvitag data](#aws-ec2-provisioning-for-ruuvitag-data)
@@ -52,7 +53,7 @@ Create ssh key pair using `ssh-keygen` so that Ansible can connect to EC2 instan
 
 ## Configuration
 There are a few variables that you have to fill before Terraform file can be run:
-* Variable in `user.tfvars.example` file (remove .example part after modification)
+* Variables in `user.tfvars.example` file (remove .example part after modification)
 * Passwords and domain name (if you are using one) in Ansible role folders. Check
 `main.yml` files in `vars` folders.
 
@@ -63,7 +64,7 @@ Use basic  [Terraform commands](https://www.terraform.io/docs/commands/index.htm
 * `terraform apply`
 
 Ansible provisioning is started automatically after AWS infra is created. If you want
-to run just Ansible part, use `ansible-playbook provision.yml`. 
+to run just Ansible part, use `ansible-playbook provision.yml` command. 
 
 ## Security
 Security in this solution is pretty poor and this setup should not be used
