@@ -4,6 +4,8 @@ Project creates AWS infra using Terraform and provisions and configurates
 EC2 instance with Nginx, Letsencrypt, Influxdb and Grafana using Ansible. Instelled
 operating system is Ubuntu 18.04 and this is also the only tested OS. 
 
+If you want to makes alerts using Slack, check out [serverless-grafana-alerts](https://github.com/pihlajus/serverless-grafana-alerts) project.
+
 ## Contents
 - [AWS EC2 provisioning for Ruuvitag data](#aws-ec2-provisioning-for-ruuvitag-data)
   * [Prerequisites](#prerequisites)
