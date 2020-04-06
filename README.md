@@ -87,6 +87,7 @@ I know it. I tried to avoid costly AWS services and e.g. used Nginx instead of A
 Like in many projects, Google has helped me a lot and I've read lots of articles and browsed Github repositories. Most
 straightforward help I got from these projects:
 * [RuuviCollector](https://github.com/Scrin/RuuviCollector)
+* [ruuvi-on-aws](https://github.com/bostrom/ruuvi-on-aws)
 * [Henrik Heikkilä's Grafana dashboard](https://graphs.2kgwf.fi/d/000000007/ruuvi?orgId=1&refresh=1m) 
   
 
