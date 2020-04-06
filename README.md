@@ -1,6 +1,6 @@
 # AWS EC2 provisioning for Ruuvitag data
 This setup is meant to be used for Ruuvitag data storage and visualization.
-Project creates AWS infra using Terraform and provisions and configurates
+Project creates AWS infra using Terraform and provisions and configures
 EC2 instance with Nginx, Letsencrypt, Influxdb and Grafana using Ansible. Installed
 operating system is Ubuntu 18.04 and this is also the only tested OS. 
 
