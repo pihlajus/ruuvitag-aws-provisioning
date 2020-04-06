@@ -16,6 +16,7 @@ If you want to create alerts using Slack, check out [serverless-grafana-alerts](
   * [Running](#running)
   * [Security](#security)
   * [Costs](#costs)
+  * [Acknowledgements](#acknowledgements)
 
 ![alt text](documents/ruuvi-aws.png "This is how it works")
 
@@ -80,4 +81,12 @@ internet please let me know. I might do it myself but probably not in any near f
 I'm still eligible for [AWS free tier](https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc)
 and last month's bill was $2.18 with tax. 1 $ for Route 53 and 0.75 $ for EC2 + tax. Route 53 is not needed if
 you don't you domain name. When my 1 year free tier period is over price tag will be a little more, I'll update when
-I know it. I tried to avoid costly AWS services and e.g. used Nginx instead of AWS load balancer.  
+I know it. I tried to avoid costly AWS services and e.g. used Nginx instead of AWS load balancer. 
+
+## Acknowledgements
+Like in many projects, Google has helped me a lot and I've read lots of articles and browsed Github repositories. Most
+straightforward help I got from these projects:
+* [RuuviCollector](https://github.com/Scrin/RuuviCollector)
+* [Henrik Heikkilä's Grafana dashboard](https://graphs.2kgwf.fi/d/000000007/ruuvi?orgId=1&refresh=1m) 
+  
+
